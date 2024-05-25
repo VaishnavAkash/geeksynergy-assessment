@@ -193,7 +193,7 @@ const SignIn = () => {
         </button>
 
         <div className="w-full text-sm font-medium text-gray-500 newAccText">
-          Don't Have a Account?
+          Don&apos;t Have a Account?
           <Link href="/sign-up" className="forgotPass">
             Sign Up
           </Link>
