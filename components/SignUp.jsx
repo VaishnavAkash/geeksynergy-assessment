@@ -43,24 +43,13 @@ const SignUp = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      console.log(data);
-      if (!data.success) {
-        setError(data.message);
-      } else {
-        setError("");
-        setTimeout(() => {
-          setLoading(false);
-          router.push("/sign-in");
-        }, 3000);
-      }
+      const username = formData.username.trim();
+      const password = formData.password.trim();
+      localStorage.setItem("username", username);
+      localStorage.setItem("password", password);
+      setLoading(false);
+      handleShowToast("Success! Now Try signing in...");
+      router.push("/sign-in");
     } catch (err) {
       setError("unexpected error");
       setLoading(false);
@@ -69,7 +58,9 @@ const SignUp = () => {
 
   const handleShowToast = (text) => {
     toast(
-      <span className="text-purple-700 font-4xl font-montserrat">{text}</span>
+      <span className="text-purple-700 text-lg font-semibold font-montserrat">
+        {text}
+      </span>
     );
   };
 
@@ -187,16 +178,20 @@ const SignUp = () => {
                 Remember me
               </label>
             </div>
-            <a href="#" className="forgotPass cursor-pointer">
+            <div
+              onClick={() => handleShowToast("Feature Coming Soon...")}
+              href="#"
+              className="forgotPass cursor-pointer"
+            >
               Forgot Password?
-            </a>
+            </div>
           </div>
           <button
             disabled={
               !(formData.username && formData.email && formData.password)
             }
             onClick={handleSubmit}
-            className="bg-[#752fed] py-3 text-white loginBtn w-full m-auto rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-[#752fed] text-white loginBtn w-full m-auto rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <Image
@@ -204,7 +199,7 @@ const SignUp = () => {
                 alt=""
                 width=""
                 height=""
-                className="w-10 m-auto"
+                className="absolute w-10 left-[46%] bottom-1 mx-auto"
               />
             ) : (
               "Sign Up"
@@ -251,12 +246,11 @@ export function SelectDropdown() {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Fruits</SelectLabel>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="grapes">Grapes</SelectItem>
-          <SelectItem value="pineapple">Pineapple</SelectItem>
+          <SelectItem value="doctor">Doctor</SelectItem>
+          <SelectItem value="engineer">Enginner</SelectItem>
+          <SelectItem value="pilot">Pilot</SelectItem>
+          <SelectItem value="businessman">Bussinessman</SelectItem>
+          <SelectItem value="programmer">Programmer</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

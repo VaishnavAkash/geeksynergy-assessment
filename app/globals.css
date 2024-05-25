@@ -185,6 +185,7 @@
   color: white;
   /* padding: 0.7rem 0.5rem; */
   height: 46.4px;
+  position: relative;
   cursor: pointer;
 }
 
@@ -207,4 +208,35 @@
 
 .newAccText {
   padding: 1.6rem 0 0 0 !important;
+}
+
+.posterImage {
+  width: 8rem;
+  height: 100%;
+  max-width: 8rem;
+  min-width: 8rem;
+  flex-shrink: 0;
+}
+
+.movieCard {
+  width: 25rem;
+  margin: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.movieTexts {
+  width: 10rem;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin-bottom: 5px;
+}
+
+.watchBtn {
+  background-color: #752fed;
+  color: white;
+  /* padding: 0.7rem 0.5rem; */
+  cursor: pointer;
 }

@@ -43,24 +43,17 @@ const SignIn = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      console.log(data);
-      if (!data.success) {
-        setError(data.message);
+      const savedName = localStorage.getItem("username", username);
+      const savedPass = localStorage.getItem("password", password);
+      if (savedName == formData.username && savedPass == formData.password) {
+        handleShowToast(
+          `Success! Welcome, ${localStorage.getItem("username")}`
+        );
+        router.push("/");
       } else {
-        setError("");
-        setTimeout(() => {
-          setLoading(false);
-          router.push("/sign-in");
-        }, 3000);
+        handleShowToast(`Unauthorized! Invalid Credentials`);
       }
+      setLoading(false);
     } catch (err) {
       setError("unexpected error");
       setLoading(false);
@@ -69,7 +62,9 @@ const SignIn = () => {
 
   const handleShowToast = (text) => {
     toast(
-      <span className="text-purple-700 font-4xl font-montserrat">{text}</span>
+      <span className="text-purple-700 text-lg font-semibold font-montserrat">
+        {text}
+      </span>
     );
   };
 
@@ -86,7 +81,7 @@ const SignIn = () => {
       <div className="w-full sm:w-[50%] lg:w-[38%] signinBox px-[1rem] py-[2rem] lg:py-[4rem] lg:px-[4rem] bg-white shadow border-gray-700 rounded-lg">
         <div className="flex justify-center items-center mb-8 gap-4">
           <Image src={Logo} alt="Logo" width="" height="" className="logo" />
-          <h2 className="text-base font-semibold letterSpacing">Sign Up</h2>
+          <h2 className="text-base font-semibold letterSpacing">Sign In</h2>
         </div>
 
         <form
@@ -151,9 +146,13 @@ const SignIn = () => {
                 Remember me
               </label>
             </div>
-            <a href="#" className="forgotPass cursor-pointer">
+            <div
+              onClick={() => handleShowToast("Feature Coming Soon...")}
+              href="#"
+              className="forgotPass cursor-pointer"
+            >
               Forgot Password?
-            </a>
+            </div>
           </div>
           <button
             disabled={!(formData.username && formData.password)}
@@ -166,7 +165,7 @@ const SignIn = () => {
                 alt=""
                 width=""
                 height=""
-                className="w-10 m-auto"
+                className="absolute w-10 left-[46%] bottom-1 mx-auto"
               />
             ) : (
               "Sign Up"
